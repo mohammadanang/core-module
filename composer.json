@@ -6,7 +6,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Apollo16\\Core\\Module||": ""
+            "Apollo16\\Core\\Module\\": ""
         }
     },
     "extra": {
