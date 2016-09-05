@@ -1,0 +1,19 @@
+{
+    "name": "apollo16/core-module",
+    "description": "apollo16 core module component",
+    "require": {
+        "apollo16/core-contracts": "1.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Apollo16\\Core\\Module||": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
