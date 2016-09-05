@@ -28,11 +28,11 @@ class Factory
     protected $modules = [];
 
     /**
-     * Composer class loader.
+     * List of booted modules.
      *
-     * @var \Composer\Autoload\ClassLoader
+     * @var array
      */
-    protected $loader;
+    protected $booted = [];
 
     /**
      * Create new module factory instance.
@@ -42,7 +42,16 @@ class Factory
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->loader = $this->app->make(ClassLoader::class);
+    }
+
+    /**
+     * Get all registered modules.
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->modules;
     }
 
     /**
@@ -146,16 +155,18 @@ class Factory
     {
         $autoload = $module->getModuleAutoLoad();
 
+        $loader = new ClassLoader();
+
         // boot classmap
         if (array_key_exists('classmap', $autoload)) {
-            $this->loader->addClassMap($autoload['classmap']);
+            $loader->addClassMap($autoload['classmap']);
         }
 
         // boot psr-0
         if(array_key_exists('psr-0', $autoload)) {
             foreach($autoload['psr-0'] as $prefix => $path)
             {
-                $this->loader->add($prefix, $module->getBasePath() . DIRECTORY_SEPARATOR . $path);
+                $loader->add($prefix, $module->getBasePath() . DIRECTORY_SEPARATOR . $path);
             }
         }
 
@@ -163,9 +174,12 @@ class Factory
         if(array_key_exists('psr-4', $autoload)) {
             foreach($autoload['psr-4'] as $prefix => $path)
             {
-                $this->loader->addPsr4($prefix, $module->getBasePath() . DIRECTORY_SEPARATOR . $path);
+                $loader->addPsr4($prefix, $module->getBasePath() . DIRECTORY_SEPARATOR . $path);
             }
         }
+
+        // registered the autoloader
+        $loader->register();
     }
 
     /**

@@ -64,7 +64,7 @@ class Json
      */
     public function getModuleAutoload()
     {
-        return isset($this->config['module']['autoloader']) ? $this->config['module']['autoload'] : [];
+        return isset($this->config['module']['autoload']) ? $this->config['module']['autoload'] : [];
     }
 
     /**
